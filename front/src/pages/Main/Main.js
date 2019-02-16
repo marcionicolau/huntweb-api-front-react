@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import api from "../../services/api";
 import "./styles.css";
 
@@ -13,10 +14,9 @@ class Main extends Component {
   }
 
   loadProducts = async (page = 1) => {
-    const response = await api.get(`/products/${page}`);
+    const response = await api.get(`/products?page=${page}`);
     const { docs, ...productInfo } = response.data;
     this.setState({ products: docs, productInfo, page });
-    console.log(this.state);
   };
 
   prevPage = () => {
@@ -41,7 +41,7 @@ class Main extends Component {
           <article key={product._id}>
             <strong>{product.title}</strong>
             <p>{product.description}</p>
-            <a href={product.url}>Acessar</a>
+            <Link to={`/products/${product._id}`}>Acessar</Link>
           </article>
         ))}
         <div className="actions">
